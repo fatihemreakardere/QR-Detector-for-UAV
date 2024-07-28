@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 def preprocess_image(image_path):
-    #image = cv2.imread(image_path)
+    image = cv2.imread(image_path)
     if image is None:
         raise ValueError(f"Failed to load image from path: {image_path}")
 
@@ -37,47 +37,41 @@ def find_largest_contour(image):
     # Draw contours on the original image
     contour_image = image.copy()
     cv2.drawContours(contour_image, contours, -1, (0, 255, 0), 2)
-    #cv2.imshow('Contours', contour_image)
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
+    cv2.imshow('Contours', contour_image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     # Find the largest contour
-    if len(contours) > 0:
-        largest_contour = max(contours, key=cv2.contourArea)
-        rect = cv2.minAreaRect(largest_contour)
-        box = cv2.boxPoints(rect)
-        box = np.int0(box)
-        print(f"Found largest contour with box points: {box}")
+    largest_contour = max(contours, key=cv2.contourArea)
+    rect = cv2.minAreaRect(largest_contour)
+    box = cv2.boxPoints(rect)
+    box = np.int0(box)
+    print(f"Found largest contour with box points: {box}")
     
-        # Draw the bounding box on the original image
-        cv2.drawContours(image, [box], 0, (0, 255, 0), 2)
-        #cv2.imshow('Bounding Rectangle', image)
+    # Draw the bounding box on the original image
+    cv2.drawContours(image, [box], 0, (0, 255, 0), 2)
+    cv2.imshow('Bounding Rectangle', image)
+    
+    # Extract the largest contour
+    width = int(rect[1][0])
+    height = int(rect[1][1])
+    src_pts = box.astype("float32")
+    dst_pts = np.array([[0, height-1],
+                        [0, 0],
+                        [width-1, 0],
+                        [width-1, height-1]], dtype="float32")
+    M = cv2.getPerspectiveTransform(src_pts, dst_pts)
+    warped = cv2.warpPerspective(image, M, (width, height))
 
-        # Extract the largest contour
-        width = int(rect[1][0])
-        height = int(rect[1][1])
-        src_pts = box.astype("float32")
-        dst_pts = np.array([[0, height-1],
-                            [0, 0],
-                            [width-1, 0],
-                            [width-1, height-1]], dtype="float32")
-        M = cv2.getPerspectiveTransform(src_pts, dst_pts)
-        warped = cv2.warpPerspective(image, M, (width, height))
+    # Convert the extracted matrix to grayscale
+    gray_matrix = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
 
-        # Convert the extracted matrix to grayscale
-        gray_matrix = cv2.cvtColor(warped, cv2.COLOR_BGR2GRAY)
+    # Display the grayscale extracted matrix
+    cv2.imshow('Extracted Grayscale Matrix', gray_matrix)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
-        # Display the grayscale extracted matrix
-        #cv2.imshow('Extracted Grayscale Matrix', gray_matrix)
-        #cv2.waitKey(0)
-        #cv2.destroyAllWindows()
-
-        return gray_matrix
-    else:
-        print("No contours found in the image.")
-        # Convert the extracted matrix to grayscale
-        gray_matrix = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        return gray_matrix
+    return gray_matrix
 
 
 def enhance_contrast(gray_matrix):
@@ -88,9 +82,9 @@ def enhance_contrast(gray_matrix):
     high_contrast_matrix = cv2.bitwise_not(high_contrast_matrix)
 
     # Display the high contrast grayscale matrix
-    #cv2.imshow('High Contrast Grayscale Matrix', high_contrast_matrix)
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
+    cv2.imshow('High Contrast Grayscale Matrix', high_contrast_matrix)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     return high_contrast_matrix
 
@@ -100,9 +94,9 @@ def scale_to_5x5(high_contrast_matrix):
     scaled_matrix = cv2.resize(high_contrast_matrix, (5, 5), interpolation=cv2.INTER_AREA)
 
     # Display the scaled 5x5 matrix
-    #cv2.imshow('Scaled 5x5 Matrix', scaled_matrix)
-    #cv2.waitKey(0)
-    #cv2.destroyAllWindows()
+    cv2.imshow('Scaled 5x5 Matrix', scaled_matrix)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
     return scaled_matrix
 
@@ -155,30 +149,13 @@ def decode_number(matrix):
     return number
 
 
-cap = cv2.VideoCapture(0)
+# Example usage
+image_path = 'images/encoded_matrix.png'  # Path to the larger image file containing the 5x5 matrix
+image = preprocess_image(image_path)
+gray_matrix = find_largest_contour(image)
+high_contrast_matrix = enhance_contrast(gray_matrix)
+scaled_matrix = scale_to_5x5(high_contrast_matrix)
+binary_matrix = binarize_matrix(scaled_matrix)
+decoded_number = decode_number(binary_matrix)
 
-while True:
-    _, frame = cap.read()
-
-    # Example usage
-    #image_path = 'images/encoded_matrix.png'  # Path to the larger image file containing the 5x5 matrix
-    #image = preprocess_image(frame)
-    cv2.imshow('frame', frame)
-    gray_matrix = find_largest_contour(frame)
-    high_contrast_matrix = enhance_contrast(gray_matrix)
-    scaled_matrix = scale_to_5x5(high_contrast_matrix)
-    binary_matrix = binarize_matrix(scaled_matrix)
-    #decoded_number = decode_number(binary_matrix)
-    #print("Decoded number:", decoded_number)
-
-    cv2.imshow('oynanmış frame', frame)
-    cv2.imshow('gray_matrix', gray_matrix)
-    cv2.imshow('high_contrast_matrix', high_contrast_matrix)
-    cv2.imshow('scaled_matrix', scaled_matrix)
-    #cv2.imshow('binary_matrix', binary_matrix)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-
-
+print("Decoded number:", decoded_number)
