@@ -31,7 +31,7 @@ def display_matrix(matrix, filename):
             if matrix[i, j] == 1:
                 color_matrix[i, j] = [255, 0, 0]  # Red for 1
             else:
-                color_matrix[i, j] = [0, 0, 255]  # Blue for 0
+                color_matrix[i, j] = [0, 255, 0]  # Blue for 0
 
     plt.imshow(color_matrix)
     plt.axis('off')  # Hide axes
