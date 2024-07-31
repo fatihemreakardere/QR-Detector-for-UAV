@@ -3,6 +3,7 @@ import struct
 import cv2
 import numpy as np
 from picamera2 import Picamera2
+from lan_config import SERVER_IP, SERVER_PORT
 
 
 class QRDecoder:
@@ -122,7 +123,7 @@ def send_frames(picam2, client_socket):
 
 if __name__ == '__main__':
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('10.0.0.173', 8001))
+    server_socket.bind((f'{SERVER_IP}', SERVER_PORT))
     server_socket.listen(1)
     print("Server is listening, waiting for connection...")
 

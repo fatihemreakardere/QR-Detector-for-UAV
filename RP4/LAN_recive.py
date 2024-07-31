@@ -2,6 +2,7 @@ import socket
 import struct
 import cv2
 import numpy as np
+from lan_config import SERVER_IP, SERVER_PORT
 
 def receive_frames(server_ip, server_port):
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,6 +40,6 @@ def receive_frames(server_ip, server_port):
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    server_ip = '127.0.0.1'  # Replace with the server's IP address
-    server_port = 8000  # Replace with the server's port
+    server_ip = f'{SERVER_IP}'  # Replace with the server's IP address
+    server_port = SERVER_PORT  # Replace with the server's port
     receive_frames(server_ip, server_port)
