@@ -36,21 +36,21 @@ Make sure you have the following installed on your Raspberry Pi 4b:
 
 1. Clone the repository:
 
-    \`\`\`bash
+    ```bash
     git clone https://github.com/fatihemreakardere/QR-Detector-for-UAV.git
-    \`\`\`
+    ```
 
 2. Navigate to the project directory:
 
-    \`\`\`bash
+    ```bash
     cd QR-Detector-for-UAV
-    \`\`\`
+    ```
 
 3. Install the required Python libraries:
 
-    \`\`\`bash
+    ```bash
     pip install -r requirements.txt
-    \`\`\`
+    ```
 
 ### Running the Decoder
 
@@ -58,15 +58,15 @@ To run the QR code decoder on your Raspberry Pi 4b:
 
 1. Navigate to the `QRDecoder` directory:
 
-    \`\`\`bash
+    ```bash
     cd QRDecoder
-    \`\`\`
+    ```
 
 2. Execute the main decoder script:
 
-    \`\`\`bash
+    ```bash
     python QRDecoder.py
-    \`\`\`
+    ```
 
 The decoder will start processing the video feed or images, detecting and decoding any QR codes it encounters.
 
