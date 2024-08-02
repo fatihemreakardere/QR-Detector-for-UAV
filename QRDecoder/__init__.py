@@ -1,0 +1,1 @@
+from .QRDecoder import QRDecoder
