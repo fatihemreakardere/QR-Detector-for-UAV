@@ -80,15 +80,9 @@ Use the encoder to generate QR codes from integer numbers. This can be done usin
 
 The decoder script will automatically detect and decode QR codes from the video feed or images. The decoded information will be processed and made available for further actions or decisions by the UAV.
 
-## Contributing
-
-If you would like to contribute to this project, please fork the repository and submit a pull request with your changes. We welcome contributions that improve the functionality, performance, or usability of the QR-Detector-for-UAV project.
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
-
-- UAV team "Sarkan" for their support and collaboration.
-- All contributors to the open-source libraries used in this project.
+## Contributions
+https://github.com/jubcos
