@@ -1,4 +1,4 @@
-from QRDecoder import QRDecoder
+from QRDecoder.QRDecoder import QRDecoder
 import cv2
 
 def main():
