@@ -4,7 +4,11 @@ import cv2
 import numpy as np
 from picamera2 import Picamera2
 from lan_config import SERVER_IP, SERVER_PORT
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../QRDecoder')))
 from QRDecoder import QRDecoder
+
 
 def send_frames(picam2, client_socket):
     decoder = QRDecoder()
