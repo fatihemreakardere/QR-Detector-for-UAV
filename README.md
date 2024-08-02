@@ -74,6 +74,14 @@ To run the QR code decoder on your Raspberry Pi 4b:
     ```bash
     python LAN_recive.py
     ```
+
+To run the QR code decoder on your PC:
+
+1. Execute the decoder script:
+
+    ```bash
+    python decoder.py
+    ```
    
 
 The decoder will start processing the video feed or images, detecting and decoding any QR codes it encounters.
