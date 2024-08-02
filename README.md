@@ -16,7 +16,7 @@ The encoder component is responsible for generating QR codes from integer number
 
 ### Decoder
 
-The main decoder script, `QRDecoder/QRDecoder.py`, is the core of the project. It runs on a Raspberry Pi 4b and is responsible for detecting QR codes in real-time from a video feed or images. This script leverages computer vision libraries to locate and decode QR codes, making it possible for the UAV to identify and react to the encoded information.
+The main decoder algorithm script, `QRDecoder/QRDecoder.py`, is the core of the project.
 
 ## Folder Structure
 
@@ -56,17 +56,25 @@ Make sure you have the following installed on your Raspberry Pi 4b:
 
 To run the QR code decoder on your Raspberry Pi 4b:
 
-1. Navigate to the `QRDecoder` directory:
+1. Navigate to the `RP4` directory:
 
     ```bash
-    cd QRDecoder
+    cd RP4
     ```
+2. Configure the LAN settings from lan_config.py.
 
-2. Execute the main decoder script:
+3. Execute the decoder script:
 
     ```bash
-    python QRDecoder.py
+    python LAN_send.py
     ```
+
+4. Execute the reciver script wherever you want to recive output video:
+
+    ```bash
+    python LAN_recive.py
+    ```
+   
 
 The decoder will start processing the video feed or images, detecting and decoding any QR codes it encounters.
 
